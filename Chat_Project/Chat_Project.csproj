@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BCDF85E1-0621-451F-AFB0-1102035658E5}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Chat_Project</RootNamespace>
+    <AssemblyName>Chat_Project</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DATABASE\ChatDatabase.cs" />
+    <Compile Include="DATAHANDER\DataHandingOnDatabase.cs" />
+    <Compile Include="DATAHANDER\DataHandingOnFile.cs" />
+    <Compile Include="DATA_OBJECTS\ForumMessage.cs" />
+    <Compile Include="DATAHANDER\IDataHander.cs" />
+    <Compile Include="DATA_OBJECTS\UserType.cs" />
+    <Compile Include="Specific_Actions\ManageUser.cs" />
+    <Compile Include="UserChoice\MainActions.cs" />
+    <Compile Include="SelectMenu.cs" />
+    <Compile Include="DATA_OBJECTS\PersonalMessage.cs" />
+    <Compile Include="Migrations\201812031414200_Creea]].cs" />
+    <Compile Include="Migrations\201812031414200_Creea]].Designer.cs">
+      <DependentUpon>201812031414200_Creea]].cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812031424074_CreateTables.cs" />
+    <Compile Include="Migrations\201812031424074_CreateTables.Designer.cs">
+      <DependentUpon>201812031424074_CreateTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812031432002_CreateTablesAgain.cs" />
+    <Compile Include="Migrations\201812031432002_CreateTablesAgain.Designer.cs">
+      <DependentUpon>201812031432002_CreateTablesAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812031438463_CreateTablesAgain1.cs" />
+    <Compile Include="Migrations\201812031438463_CreateTablesAgain1.Designer.cs">
+      <DependentUpon>201812031438463_CreateTablesAgain1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812031451135_PropertiesLimitations.cs" />
+    <Compile Include="Migrations\201812031451135_PropertiesLimitations.Designer.cs">
+      <DependentUpon>201812031451135_PropertiesLimitations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignupOrLoggin.cs" />
+    <Compile Include="Specific_Actions\ForumActions.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="DATA_OBJECTS\User.cs" />
+    <Compile Include="Specific_Actions\PersonalMessageActions.cs" />
+    <Compile Include="UserChoice\SpecificActions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201812031414200_Creea]].resx">
+      <DependentUpon>201812031414200_Creea]].cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812031424074_CreateTables.resx">
+      <DependentUpon>201812031424074_CreateTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812031432002_CreateTablesAgain.resx">
+      <DependentUpon>201812031432002_CreateTablesAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812031438463_CreateTablesAgain1.resx">
+      <DependentUpon>201812031438463_CreateTablesAgain1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812031451135_PropertiesLimitations.resx">
+      <DependentUpon>201812031451135_PropertiesLimitations.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
