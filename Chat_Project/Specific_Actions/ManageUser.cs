@@ -8,14 +8,21 @@ namespace Chat_Project
 {
     class ManageUser
     {
-        
-        
-        public void DeleteUser(IDataHandler DataHandler, User SelectedUser)
+        private IDataHandler DataProvider;
+        private User ActiveUser;
+        public ManageUser(IDataHandler DataHandler,User LogUser)
         {
-            Console.WriteLine("Delete this User;");
-            DataHandler.DeleteUser(SelectedUser);
+            DataProvider = DataHandler;
+            ActiveUser = LogUser;
         }
-        public bool UpdateUserAccess(User UpdatedUser, UserType NewUserAccess, IDataHandler DataProvider)
+
+        public bool DeleteUser()
+        {
+            User SelectedUser = MainActions.SelectUser();            
+            return DataProvider.DeleteUser(SelectedUser);
+        }
+
+        public bool UpdateUserAccess()
         {
             MainActions MA = new MainActions(DataProvider);
             string UpdateSelection = SelectMenu.Horizontal(new List<string>
@@ -51,7 +58,7 @@ namespace Chat_Project
                         default:
                             break;
                     }
-                    DataProvider.UpdateUserAccess(SelectedUser,NewUserAccess);
+                    DataProvider.UpdateUserAccess(SelectedUser);
                     break;
                 case "Downgrade":
 
@@ -80,7 +87,7 @@ namespace Chat_Project
                         default:
                             break;
                     }
-                    DataProvider.UpdateUserAccess(UserSelection,NewUserAccess);
+                    DataProvider.UpdateUserAccess(UserSelection);
                     break;
             }
             return true;

@@ -15,8 +15,7 @@ namespace Chat_Project
                 SignupOrLogin WelcomeScreen = new SignupOrLogin(DataProvider);
                 User LoggedInUser = WelcomeScreen.SignOrLog(DataProvider);
                 string ResultShowmenu = MainMenuSelection.Showmenu(LoggedInUser.TypeOfUser);
-                
-                Console.ReadKey();
+                MainMenuSelection.MainMenu(LoggedInUser);
             }
 
 

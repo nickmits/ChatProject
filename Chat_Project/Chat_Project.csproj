@@ -55,6 +55,10 @@
     <Compile Include="DATA_OBJECTS\ForumMessage.cs" />
     <Compile Include="DATAHANDER\IDataHander.cs" />
     <Compile Include="DATA_OBJECTS\UserType.cs" />
+    <Compile Include="Migrations\201812131506438_PropertiesLimitations1.cs" />
+    <Compile Include="Migrations\201812131506438_PropertiesLimitations1.Designer.cs">
+      <DependentUpon>201812131506438_PropertiesLimitations1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Specific_Actions\ManageUser.cs" />
     <Compile Include="UserChoice\MainActions.cs" />
     <Compile Include="SelectMenu.cs" />
@@ -111,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812031451135_PropertiesLimitations.resx">
       <DependentUpon>201812031451135_PropertiesLimitations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812131506438_PropertiesLimitations1.resx">
+      <DependentUpon>201812131506438_PropertiesLimitations1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

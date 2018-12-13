@@ -15,9 +15,9 @@ namespace Chat_Project
         }
         public string Showmenu(UserType TypeUser)
         {
-            List<string> Adminmenu = new List<string> { "Chat", "Private Chat", "ManageUser", " Delete User", " Create Team", " Block Guest", " exit" };
-            List<string> Usermenu = new List<string> { "Chat", "Private Chat", " exit" };
-            List<string> Guestmenu = new List<string> { "Chat", " exit" };
+            List<string> Adminmenu = new List<string> { "Forum", "Personal Messages", "Manage Users","Logout"," exit" };
+            List<string> Usermenu = new List<string> { "Forum", "Personal Messages", "Logout", " exit" };
+            List<string> Guestmenu = new List<string> { "Forum", "Logout"," exit" };
             switch (TypeUser)
             {
                 case UserType.Administrator:
@@ -31,11 +31,26 @@ namespace Chat_Project
         }
         public void MainMenu(User ActiveUser)
         {
-            SpecificUserActions SpecificManu = new SpecificUserActions();
-            switch (Showmenu(ActiveUser.TypeOfUser))
+            SpecificUserActions SpecificMenu = new SpecificUserActions();
+            while (true)
             {
-                case "Forum":
-                    SpecificManu.ShowForumMenu()
+                switch (Showmenu(ActiveUser.TypeOfUser))
+                {
+                    case "Forum":
+                        SpecificMenu.ShowForumMenu(DataProvider, ActiveUser);
+                        break;
+                    case "Personal Messages":
+                        SpecificMenu.ShowPersonalMenu(ActiveUser, DataProvider);
+                        break;
+                    case "Manage Users":
+                        SpecificMenu.ShowManageUserMenu(ActiveUser, DataProvider);
+                        break;
+                    case "Logout":
+                        return;
+                    default:
+                        Environment.Exit(0);
+                        break;
+                }
             }
         }
 

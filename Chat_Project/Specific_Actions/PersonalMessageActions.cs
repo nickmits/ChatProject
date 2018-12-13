@@ -1,28 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 
 namespace Chat_Project
 {
     internal class PersonalMessageActions
     {
-        IDataHandler dataHandler = new DataHandingOnFile();
-        
-        public  bool CreateMessage(User Sender,IDataHandler dataHandler)
+        private IDataHandler dataHandler;
+        private User ActiveUser;
+
+        public PersonalMessageActions(IDataHandler DataProvider, User LoggedInUser)
         {
-            MainActions Ma = new MainActions(dataHandler);
-            User Receiver = Ma.SelectUser();
+            dataHandler = DataProvider;
+            ActiveUser = LoggedInUser;
+        }
+
+        public bool CreateMessage()
+        {
+
+            User Receiver = MainActions.SelectUser();
             Console.WriteLine("Send the message");
             string SentPersonalMessage = Console.ReadLine();
-            PersonalMessage NewPersonalMessage = new PersonalMessage(Sender, Receiver, SentPersonalMessage);
+            PersonalMessage NewPersonalMessage = new PersonalMessage()
+            {
+                Sender = ActiveUser,
+                Receiver = Receiver,
+                PersonalMessageText = SentPersonalMessage
+            };
             return true;
         }
 
-        public bool ShowReceivedMessages(User Receiver)
+        public bool ShowReceivedMessages()
         {
-            List<PersonalMessage> ReceivedPersonalMessages =dataHandler.ReadPersonalMessages()
-                .Where(ReceivedMessages => ReceivedMessages.Receiver.UserID == Receiver.UserID)
+            List<PersonalMessage> ReceivedPersonalMessages = dataHandler.ReadPersonalMessages()
+                .Where(ReceivedMessages => ReceivedMessages.Receiver.UserID == ActiveUser.UserID)
                 .ToList();
 
             foreach (PersonalMessage Message in ReceivedPersonalMessages)
@@ -33,46 +44,72 @@ namespace Chat_Project
             return true;
         }
 
-        public bool ShowSentMessages(User Sender)
+        public bool ShowSentMessages()
         {
-            foreach (PersonalMessage Message in GetSentMessages(Sender))
+            foreach (PersonalMessage Message in GetSentMessages())
             {
                 Console.WriteLine($"{Message.Sender.Username} έστειλες μήνυμα στις {Message.SendDate}: {Message.PersonalMessageText}");
             }
             return true;
         }
-        public  bool IsMessageRead(User Sender)
+        public bool IsMessageRead()
         {
             Console.WriteLine("choose the message you want to check if its read");
-            List<PersonalMessage> MessagesToChoose = GetSentMessages(Sender);            
-            List<string>Messages = MessagesToChoose.Select(Message=>Message.PersonalMessageText).ToList();
-            string MessageChoice=SelectMenu.Vertical(Messages);
+            List<PersonalMessage> MessagesToChoose = GetSentMessages();
+            List<string> Messages = MessagesToChoose.Select(Message => Message.PersonalMessageText).ToList();
+            string MessageChoice = SelectMenu.Vertical(Messages);
             PersonalMessage MessageToCheck = MessagesToChoose.Where(Message => Message.PersonalMessageText == MessageChoice)
                 .Single();
             if (MessageToCheck.isRead == true)
             {
                 Console.WriteLine("Message was read");
                 return true;
-            }            
-            else Console.WriteLine("Message not read yet");
-            return false;   
+            }
+            else
+            {
+                Console.WriteLine("Message not read yet");
+            }
+
+            return false;
         }
 
-        public  List<PersonalMessage> GetSentMessages(User Sender)
+        public List<PersonalMessage> GetSentMessages()
         {
             return dataHandler.ReadPersonalMessages()
-                 .Where(SendMessages => SendMessages.Sender.UserID == Sender.UserID)
+                 .Where(SendMessages => SendMessages.Sender.UserID == ActiveUser.UserID)
                  .ToList();
         }
-        public bool DeleteMessage(PersonalMessage PersonalMessage, IDataHandler DataHandler,User ActiveUser)
+        public List<PersonalMessage> GetRecievedMessages()
         {
-            Console.WriteLine("Are you sure to delete this message;");
-            return DataHandler.DeletePersonalMessage(PersonalMessage,ActiveUser);
+            return dataHandler.ReadPersonalMessages()
+                .Where(ReceivedMessages => ReceivedMessages.Receiver.UserID == ActiveUser.UserID).ToList();
         }
-        public bool UpdatePersonalMessage(PersonalMessage OldPersonalMessage, string NewPersonalMessageText,IDataHandler DataHandler)
+        public PersonalMessage GetWantedMessage(User ActiveUser)
         {
-            return DataHandler.UpdatePersonalMessage(OldPersonalMessage, NewPersonalMessageText);
+            string ReceivedOrSentMessage = SelectMenu.Horizontal(new List<string> { "Received", "Sent" });
+            List<PersonalMessage> MessagesToShow = new List<PersonalMessage>();
+            switch (ReceivedOrSentMessage)
+            {
+                case "Received":
+                    MessagesToShow = GetRecievedMessages();
+                    break;
+                case "Sent":
+                    MessagesToShow = GetSentMessages();
+                    break;
+            }
+            string SelectedMessage = SelectMenu.Vertical(MessagesToShow.Select(MessageObject => MessageObject.PersonalMessageText).ToList());
+            return MessagesToShow.Single(PMessage => PMessage.PersonalMessageText == SelectedMessage);
         }
-
+        public bool UpdateMessage()
+        {
+            PersonalMessage WantedMessage = GetWantedMessage(ActiveUser);
+            Console.Write($"Old Message: {WantedMessage.PersonalMessageText}\nNew Message:");
+            return dataHandler.UpdatePersonalMessage(WantedMessage, Console.ReadLine());
+        }
+        public bool DeleteMessage()
+        {
+            PersonalMessage WantedMessage = GetWantedMessage(ActiveUser);
+            return dataHandler.DeletePersonalMessage(WantedMessage, ActiveUser);
+        }
     }
 }

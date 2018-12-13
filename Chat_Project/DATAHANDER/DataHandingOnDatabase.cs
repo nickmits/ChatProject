@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chat_Project
 {
-    class DataHandingOnDatabase:IDataHandler
+    internal class DataHandingOnDatabase : IDataHandler
     {
-       
+
 
         public List<ForumMessage> ReadForumMessages()
         {
@@ -20,7 +19,7 @@ namespace Chat_Project
 
         public List<PersonalMessage> ReadPersonalMessages()
         {
-            using(ChatDatabase ChatDB = new ChatDatabase())
+            using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 return ChatDB.PersonalMessages.ToList();
             }
@@ -30,17 +29,21 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                return ChatDB.Users.ToList();
+                return ChatDB.Users
+                    .Include(u => u.ForumMessages)
+                    .Include(u => u.ReceivedMessages)
+                    .Include(u => u.SentMessages)
+                    .ToList();
             }
         }
 
-      
+
         public bool CreateForumMessageData(ForumMessage forumMessage)
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 ChatDB.ForumMessages.Add(forumMessage);
-                return SaveComitChanges();
+                return SaveComitChanges(ChatDB);
             }
         }
 
@@ -49,7 +52,7 @@ namespace Chat_Project
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 ChatDB.PersonalMessages.Add(personal);
-                SaveComitChanges();
+                SaveComitChanges(ChatDB);
             }
             return true;
         }
@@ -59,11 +62,11 @@ namespace Chat_Project
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 ChatDB.Users.Add(user);
-                return SaveComitChanges();
+                return SaveComitChanges(ChatDB);
             }
         }
 
-        public bool SaveComitChanges()
+        public bool SaveComitChanges(ChatDatabase chat)
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
@@ -72,19 +75,19 @@ namespace Chat_Project
                     return (ChatDB.SaveChanges() > 0);
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return false;
                 }
             }
         }
 
-        public bool UpdateForumMessage(ForumMessage OldForumMessage, string NewForumMessageText,User sender)
+        public bool UpdateForumMessage(ForumMessage OldForumMessage, string NewForumMessageText)
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 ChatDB.ForumMessages.Single(fm => fm.TextMessageToAll == OldForumMessage.TextMessageToAll).TextMessageToAll = NewForumMessageText;
-                return SaveComitChanges();
+                return SaveComitChanges(ChatDB);
             }
         }
 
@@ -93,7 +96,7 @@ namespace Chat_Project
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 ChatDB.Users.Single(ThisUser => ThisUser.Username == UpdatedUser.Username).Username = NewUsername;
-                return SaveComitChanges();
+                return SaveComitChanges(ChatDB);
             }
         }
 
@@ -102,25 +105,25 @@ namespace Chat_Project
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 ChatDB.Users.Single(u => u.UserID == UpdatedUser.UserID).Password = NewUserPassword;
-                return SaveComitChanges();
+                return SaveComitChanges(ChatDB);
             }
         }
 
-        public bool UpdateUserAccess(User UpdatedUser, UserType NewUserAccess)
+        public bool UpdateUserAccess(User UpdatedUser)
         {
-            using (ChatDatabase chatDB=new ChatDatabase())
+            using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                chatDB.Users.Single(USER => USER.TypeOfUser == UpdatedUser.TypeOfUser).TypeOfUser = NewUserAccess;
-                return SaveComitChanges();
+                ChatDB.Users.Single(USER => USER.UserID == UpdatedUser.UserID).TypeOfUser = UpdatedUser.TypeOfUser;
+                return SaveComitChanges(ChatDB);
             }
         }
 
         public bool UpdatePersonalMessage(PersonalMessage OldPersonalMessage, string NewPersonalMessageText)
         {
-            using (ChatDatabase chatDB = new ChatDatabase())
+            using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                chatDB.PersonalMessages.Single(PM => PM.PersonalMessageText == OldPersonalMessage.PersonalMessageText).PersonalMessageText = NewPersonalMessageText;
-                return SaveComitChanges();
+                ChatDB.PersonalMessages.Single(PM => PM.PersonalMessageText == OldPersonalMessage.PersonalMessageText).PersonalMessageText = NewPersonalMessageText;
+                return SaveComitChanges(ChatDB);
             }
         }
 
@@ -130,27 +133,27 @@ namespace Chat_Project
             {
                 User DeleteUser = ChatDB.Users.Single(u => u.UserID == DeletedUser.UserID);
                 ChatDB.Users.Remove(DeleteUser);
-                return SaveComitChanges();
+                return SaveComitChanges(ChatDB);
             }
         }
 
-        public bool DeletePersonalMessage(PersonalMessage DeletedMessage,User sender)
+        public bool DeletePersonalMessage(PersonalMessage DeletedMessage, User sender)
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                PersonalMessage DeletePM = ChatDB.PersonalMessages.Single(pm =>pm.PersonalMessageText == DeletedMessage.PersonalMessageText);
+                PersonalMessage DeletePM = ChatDB.PersonalMessages.Single(pm => pm.PersonalMessageText == DeletedMessage.PersonalMessageText);
                 ChatDB.PersonalMessages.Remove(DeletePM);
-                return SaveComitChanges();
+                return SaveComitChanges(ChatDB);
             }
         }
 
-        public bool DeleteForumMessage(ForumMessage DeletedMessage,User sender)
+        public bool DeleteForumMessage(ForumMessage DeletedMessage, User sender)
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 ForumMessage DeletePM = ChatDB.ForumMessages.Single(fm => fm.TextMessageToAll == DeletedMessage.TextMessageToAll);
                 ChatDB.ForumMessages.Remove(DeletePM);
-                return SaveComitChanges();
+                return SaveComitChanges(ChatDB);
             }
         }
 
