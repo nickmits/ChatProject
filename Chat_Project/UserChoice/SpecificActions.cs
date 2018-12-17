@@ -4,26 +4,27 @@ namespace Chat_Project
 {
     internal class SpecificUserActions
     {
+        const string ALL_MESSAGES = "All Messages", MY_MESSAGES = "My Messages", NEW_MESSAGE = "New Message", EDIT_MESSAGE = "Edit Message", DELETE_MESSAGE = "Delete Message", BACK = "Back";
         internal void ShowForumMenu(IDataHandler DataHandler, User ActiveUser)
         {
             string UserSelection = SelectMenu.Horizontal(new List<string>
             {
-                "All Messages",
-                "My Messages",
-                "New Message",
-                "Edit Message",
-                "Delete Message",
-                "Back"
+                ALL_MESSAGES,
+                MY_MESSAGES,
+                NEW_MESSAGE,
+                EDIT_MESSAGE,
+                DELETE_MESSAGE,
+                BACK
             });
 
-            ForumActions ForumAction = new ForumActions(DataHandler,ActiveUser);
+            ForumActions ForumAction = new ForumActions(DataHandler, ActiveUser);
             MainActions MA = new MainActions(DataHandler);
             switch (UserSelection)
             {
-                case "All Messages":
+                case ALL_MESSAGES:
                     ForumAction.ShowAllMessages();
                     break;
-                case "My Messages":
+                case MY_MESSAGES:
                     ForumAction.ShowMyMessages();
                     break;
                 case "New Message":
@@ -43,9 +44,9 @@ namespace Chat_Project
         internal void ShowPersonalMenu(User ActiveUser, IDataHandler dataHandler)
         {
 
-            string UserChoice = SelectMenu.Vertical(new List<string>
+            string UserChoice = SelectMenu.Horizontal(new List<string>
             {
-                "Create  Message",
+                "Create Message",
                 "Show Received Messages",
                 "Show Sent Messages",
                 "Check If Message Read",
@@ -74,7 +75,7 @@ namespace Chat_Project
                     break;
                 case "Delete Message":
                     PersonalMessageAction.DeleteMessage();
-                    break; 
+                    break;
                 case "back":
                     MA.Showmenu(ActiveUser.TypeOfUser);
                     break;
@@ -82,25 +83,24 @@ namespace Chat_Project
         }
         internal void ShowManageUserMenu(User ActiveUser, IDataHandler dataHandler)
         {
-            string AdminSelection = SelectMenu.Vertical(new List<string>
-            {
-                "Update User Access",
-                "Delete User",
-                "Back"
-            });
-            ManageUser MU = new ManageUser(dataHandler,ActiveUser);
-
+            ManageUser MU = new ManageUser(dataHandler, ActiveUser);
             while (true)
             {
+                string AdminSelection = SelectMenu.Vertical(new List<string>
+                {
+                    "Update User Access",
+                    "Delete User",
+                    "Back"
+                });
                 switch (AdminSelection)
                 {
-                    case "Update UserAccess":
+                    case "Update User Access":
                         MU.UpdateUserAccess();
                         break;
                     case "Delete User":
                         MU.DeleteUser();
                         break;
-                    case "back":
+                    default:
                         return;
                 }
             }

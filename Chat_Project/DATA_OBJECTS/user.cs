@@ -15,6 +15,7 @@ namespace Chat_Project
 
         public User()
         {
+
             ForumMessages = new List<ForumMessage>();
             ReceivedMessages = new List<PersonalMessage>();
             SentMessages = new List<PersonalMessage>();

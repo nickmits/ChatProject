@@ -222,5 +222,15 @@ namespace Chat_Project
         {
             return ReadPersonalMessages().LastOrDefault().PersonalMessageId + 1;
         }
+
+        public bool UsernameExists(string Username)
+        {
+            return ReadUserData().Any(user => user.Username == Username);
+        }
+
+        public bool IsUsertableEmpty()
+        {
+            return ReadUserData().Any();
+        }
     }
 }

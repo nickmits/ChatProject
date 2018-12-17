@@ -16,7 +16,7 @@ namespace Chat_Project
 
         // Update
         bool UpdateForumMessage(ForumMessage OldForumMessage, string NewForumMessageText);       
-        bool UpdateUserAccess(User UpdatedUser);//Manage User Access
+        bool UpdateUserAccess(User UpdatedUser);
         bool UpdatePersonalMessage(PersonalMessage OldPersonalMessage, string NewPersonalMessageText);
 
         // Delete
@@ -24,6 +24,7 @@ namespace Chat_Project
         bool DeletePersonalMessage(PersonalMessage DeletedMessage, User sender);
         bool DeleteForumMessage(ForumMessage forumMessage, User sender);
 
-       
+        bool UsernameExists(string Username);
+        bool IsUsertableEmpty();
     }
 }

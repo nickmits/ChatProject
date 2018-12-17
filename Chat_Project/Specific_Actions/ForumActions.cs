@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Chat_Project
@@ -9,9 +8,9 @@ namespace Chat_Project
     {
         private IDataHandler DataProvider;
         private User ActiveUser;
-        internal ForumActions(IDataHandler DataHandler,User LoggedInUser)
+        internal ForumActions(IDataHandler DataHandler, User LoggedInUser)
         {
-            DataProvider= DataHandler;
+            DataProvider = DataHandler;
             ActiveUser = LoggedInUser;
         }
         public bool CreateMessage()
@@ -29,21 +28,34 @@ namespace Chat_Project
         {
             foreach (ForumMessage forumMessage in GetMyMessages())
             {
-                Console.WriteLine($"{forumMessage.Sender.Username } you sent at {forumMessage.SendDateToAll}:{forumMessage.TextMessageToAll} ");
+                Console.WriteLine($"You sent at {forumMessage.SendDateToAll}: {forumMessage.TextMessageToAll} ");
             }
+            Console.ReadKey();
             return true;
         }
 
-        public void ShowAllMessages()
+        public bool ShowAllMessages()
         {
-            List<string> AllLines = File.ReadLines(@"C:\Users\user\Desktop\ForumMessages.txt").ToList();
-            AllLines.ForEach(Console.WriteLine);
+            
+            foreach (ForumMessage forumMessage in GetAllMessages())
+            {
+                Console.WriteLine($"{forumMessage.SendDateToAll.ToShortDateString()}\t" +
+                    $"{forumMessage.Sender.Username } said: " +
+                    $"{forumMessage.TextMessageToAll} ");
+            }
+            Console.ReadKey();
+            return true;
+        }
+
+        public List<ForumMessage> GetAllMessages()
+        {
+            return DataProvider.ReadForumMessages().ToList();
         }
 
         public List<ForumMessage> GetMyMessages()
         {
-            return DataProvider.ReadForumMessages()
-                .Where(SentMessages => SentMessages.Sender.UserID == ActiveUser.UserID)
+            return GetAllMessages()
+                .Where(SentMessages => SentMessages.SenderId == ActiveUser.UserID)
                 .ToList();
         }
 
@@ -59,16 +71,16 @@ namespace Chat_Project
             // Replace the old message text with the new
             string NewMessageText = Console.ReadLine();
             return DataProvider.UpdateForumMessage(MessageToReplace, NewMessageText);
-            
+
         }
 
         public bool DeleteMessage()
         {
             string TextMessage = SelectMenu.Vertical(GetMyMessages().
                Select(Messages => Messages.TextMessageToAll).ToList());
-            ForumMessage MessageToDelete =GetMyMessages()
-                .Single(MessageTextToDelete => MessageTextToDelete.TextMessageToAll == TextMessage);           
-            return DataProvider.DeleteForumMessage(MessageToDelete,ActiveUser);
+            ForumMessage MessageToDelete = GetMyMessages()
+                .Single(MessageTextToDelete => MessageTextToDelete.TextMessageToAll == TextMessage);
+            return DataProvider.DeleteForumMessage(MessageToDelete, ActiveUser);
         }
     }
 }

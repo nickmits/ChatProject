@@ -12,16 +12,18 @@ namespace Chat_Project
         {
             DataProvider = ChosenDataProvider;
         }
+
         public User SignOrLog(IDataHandler DataProvider)
         {
             while (true)
             {
+
                 string ChoiceIfUserSignUpOrLogin = SelectMenu.Horizontal(new List<string> { "SignUp", "Login" });
 
                 if (ChoiceIfUserSignUpOrLogin == "SignUp")
                 {
                     User ActiveUser = SignUpNewUser();
-                    Console.WriteLine("Welcome user " + ActiveUser.Username + " and password " + ActiveUser.Password);
+                    Console.WriteLine("Welcome user " + ActiveUser.Username + " and password " + ActiveUser.Password);                   
                     return ActiveUser;
                 }
                 else if (ChoiceIfUserSignUpOrLogin == "Login")
@@ -31,12 +33,13 @@ namespace Chat_Project
                         User ActiveUser = LoginUser();
                         if (ActiveUser == null)
                         {
-                            Console.WriteLine("Invalid Username or Password,Please try again");
+                            Console.WriteLine("Invalid Username or Password, Please try again");
                         }
                         else
                         {
                             Console.WriteLine("You are in!!");
-                            break;
+                            return ActiveUser;
+
                         }
                     }
                     while (true);
@@ -50,23 +53,23 @@ namespace Chat_Project
         }
 
         public User SignUpNewUser()
-        {            
-            UserData Data = GetInputUserData();
+        {
+            UserData Data = GetInputUserData(true);
 
             User NewUser = new User()
             {
+                TypeOfUser = DataProvider.IsUsertableEmpty() ? UserType.Administrator : UserType.User,
                 Username = Data.UserName,
-                Password = Data.UserPassword,
-                TypeOfUser = UserType.User
+                Password = Data.UserPassword
+                
             };
-
             DataProvider.CreateUserData(NewUser);
             return NewUser;
         }
 
         public User LoginUser()
         {
-            UserData Data = GetInputUserData();
+            UserData Data = GetInputUserData(false);
 
             return DataProvider
                 .ReadUserData()
@@ -79,11 +82,11 @@ namespace Chat_Project
             internal string UserPassword;
         }
 
-        internal UserData GetInputUserData()
+        internal UserData GetInputUserData(bool ForSignUp)
         {
             UserData InputData = new UserData();
             Console.WriteLine("Username");
-            InputData.UserName = ReadUsername();
+            InputData.UserName = InputUsername(ForSignUp);
             Console.WriteLine("Password");
             InputData.UserPassword = InputPassword();
 
@@ -94,6 +97,7 @@ namespace Chat_Project
         {
             while (true)
             {
+
                 string Password = Console.ReadLine();
                 if (!IsCorrectLength(Password))
                 {
@@ -105,17 +109,18 @@ namespace Chat_Project
                 }
                 else
                 {
+
                     return Password;
                 }
             }
         }
 
-        private static bool IsCorrectLength(string pass)
+        private bool IsCorrectLength(string pass)
         {
             return pass.Length > 5 && pass.Length < 20;
         }
 
-        private static bool PasswordHasNumbs(string password)
+        private bool PasswordHasNumbs(string password)
         {
             foreach (var character in password)
             {
@@ -129,10 +134,11 @@ namespace Chat_Project
         }
 
 
-        public static string ReadUsername()
+        public string InputUsername(bool ForSignUp)
         {
             while (true)
             {
+
                 string Username = Console.ReadLine();
                 if (!IsUsernameCorrectLength(Username))
                 {
@@ -142,8 +148,13 @@ namespace Chat_Project
                 {
                     Console.WriteLine("Only letters accept");
                 }
+                else if (ForSignUp && DataProvider.UsernameExists(Username))
+                {
+                    Console.WriteLine("Username exists, try another");
+                }
                 else
                 {
+
                     return Username;
                 }
 
@@ -152,12 +163,13 @@ namespace Chat_Project
 
         }
 
-        private static bool IsUsernameCorrectLength(string input)
+
+        private bool IsUsernameCorrectLength(string input)
         {
             return input.Length > 5 && input.Length < 20;
         }
 
-        private static bool IsThereCharInput(string input)
+        private bool IsThereCharInput(string input)
         {
             foreach (var Character in input)
             {

@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DATABASE\ChatDatabase.cs" />
+    <Compile Include="DATABASE\PersonalTableConfiguration.cs" />
+    <Compile Include="DATABASE\UserTableConfiguration.cs" />
     <Compile Include="DATAHANDER\DataHandingOnDatabase.cs" />
     <Compile Include="DATAHANDER\DataHandingOnFile.cs" />
     <Compile Include="DATA_OBJECTS\ForumMessage.cs" />
@@ -58,6 +60,10 @@
     <Compile Include="Migrations\201812131506438_PropertiesLimitations1.cs" />
     <Compile Include="Migrations\201812131506438_PropertiesLimitations1.Designer.cs">
       <DependentUpon>201812131506438_PropertiesLimitations1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812141348226_SetUsernameConstraint.cs" />
+    <Compile Include="Migrations\201812141348226_SetUsernameConstraint.Designer.cs">
+      <DependentUpon>201812141348226_SetUsernameConstraint.cs</DependentUpon>
     </Compile>
     <Compile Include="Specific_Actions\ManageUser.cs" />
     <Compile Include="UserChoice\MainActions.cs" />
@@ -118,6 +124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812131506438_PropertiesLimitations1.resx">
       <DependentUpon>201812131506438_PropertiesLimitations1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812141348226_SetUsernameConstraint.resx">
+      <DependentUpon>201812141348226_SetUsernameConstraint.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

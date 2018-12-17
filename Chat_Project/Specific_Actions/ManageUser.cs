@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chat_Project
 {
-    class ManageUser
+    internal class ManageUser
     {
         private IDataHandler DataProvider;
         private User ActiveUser;
-        public ManageUser(IDataHandler DataHandler,User LogUser)
+        public ManageUser(IDataHandler DataHandler, User LogUser)
         {
             DataProvider = DataHandler;
             ActiveUser = LogUser;
@@ -18,17 +15,33 @@ namespace Chat_Project
 
         public bool DeleteUser()
         {
-            User SelectedUser = MainActions.SelectUser();            
-            return DataProvider.DeleteUser(SelectedUser);
+            SpecificUserActions SUA = new SpecificUserActions();
+
+            User SelectedUser = MainActions.AdminSelectsUser();
+
+            string UpdateSelection = SelectMenu.Horizontal(new List<string>
+            {
+                "Delete User",
+                "Back"
+            });
+
+            switch (UpdateSelection)
+            {
+                case "Delete User":
+                default:
+                    return DataProvider.DeleteUser(SelectedUser);
+                case "Back":
+                    return false;
+            }
         }
 
         public bool UpdateUserAccess()
-        {
-            MainActions MA = new MainActions(DataProvider);
+        {            
             string UpdateSelection = SelectMenu.Horizontal(new List<string>
             {
                 "Upgrade",
-                "Downgrade"
+                "Downgrade",
+                "Back"
             });
             switch (UpdateSelection)
             {
@@ -61,7 +74,6 @@ namespace Chat_Project
                     DataProvider.UpdateUserAccess(SelectedUser);
                     break;
                 case "Downgrade":
-
                     Console.WriteLine("Choose the user you want to Downgrade:");
                     User UserSelection = MainActions.SelectUser();
                     switch (UserSelection.TypeOfUser)
@@ -89,6 +101,8 @@ namespace Chat_Project
                     }
                     DataProvider.UpdateUserAccess(UserSelection);
                     break;
+                case "Back":
+                    return false;
             }
             return true;
         }

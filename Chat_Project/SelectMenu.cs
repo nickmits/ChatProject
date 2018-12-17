@@ -37,7 +37,7 @@ namespace Chat_Project
             }
             while (UserChoice.Key != ConsoleKey.Enter);
             string ResultSelectOption = MenutoshowVertical[Selectedoption];
-
+            Console.Clear();
             return ResultSelectOption;
         }
 
@@ -67,12 +67,8 @@ namespace Chat_Project
                 }
             }
             while (UserKeyPressed.Key != ConsoleKey.Enter);
+            Console.Clear();
             return MenuToShowHorizontal[CurrentOption];
         }
-
-        
-
-
-
     }
 }

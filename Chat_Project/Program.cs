@@ -10,11 +10,10 @@ namespace Chat_Project
             while (true)
             {
                 IDataHandler DataProvider = new DataHandingOnDatabase();
-                MainActions MainMenuSelection = new MainActions(new DataHandingOnDatabase());
+                MainActions MainMenuSelection = new MainActions(DataProvider);
                 Console.WriteLine("WELCOME");
                 SignupOrLogin WelcomeScreen = new SignupOrLogin(DataProvider);
                 User LoggedInUser = WelcomeScreen.SignOrLog(DataProvider);
-                string ResultShowmenu = MainMenuSelection.Showmenu(LoggedInUser.TypeOfUser);
                 MainMenuSelection.MainMenu(LoggedInUser);
             }
 

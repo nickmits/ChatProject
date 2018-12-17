@@ -62,7 +62,13 @@ namespace Chat_Project
             string SelectedUsername = SelectMenu.Vertical(UsernameList);
             return UsersList.Single(UserOfList => SelectedUsername == UserOfList.Username);
         }
-        
+        public static User AdminSelectsUser()
+        {
+            List<User> UsersList = DataProvider.ReadUserData();
+            List<string> UsernameList = UsersList.Skip(1).Select(UserInList => UserInList.Username).ToList();
+            string SelectedUsername = SelectMenu.Vertical(UsernameList);
+            return UsersList.Single(UserOfList => SelectedUsername == UserOfList.Username);
+        }
       
     }
 }

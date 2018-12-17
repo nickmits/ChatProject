@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Chat_Project
@@ -13,7 +14,10 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                return ChatDB.ForumMessages.ToList();
+                return ChatDB
+                    .ForumMessages
+                    .Include(FM => FM.Sender)
+                    .ToList();
             }
         }
 
@@ -21,7 +25,9 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                return ChatDB.PersonalMessages.ToList();
+                return ChatDB.PersonalMessages
+                    .Include(PM=>PM.Sender)
+                    .ToList();
             }
         }
 
@@ -52,9 +58,8 @@ namespace Chat_Project
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 ChatDB.PersonalMessages.Add(personal);
-                SaveComitChanges(ChatDB);
+                return SaveComitChanges(ChatDB);
             }
-            return true;
         }
 
         public bool CreateUserData(User user)
@@ -62,23 +67,21 @@ namespace Chat_Project
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 ChatDB.Users.Add(user);
+
                 return SaveComitChanges(ChatDB);
             }
         }
 
         public bool SaveComitChanges(ChatDatabase chat)
         {
-            using (ChatDatabase ChatDB = new ChatDatabase())
+            try
             {
-                try
-                {
-                    return (ChatDB.SaveChanges() > 0);
-
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
+                return (chat.SaveChanges() > 0);
+            }
+            catch (Exception e)
+            {
+                Debug.Write(e.Message);
+                return false;
             }
         }
 
@@ -157,5 +160,20 @@ namespace Chat_Project
             }
         }
 
+        public bool UsernameExists(string Username)
+        {
+            using(ChatDatabase ChatDB=new ChatDatabase())
+            {
+                return ChatDB.Users.Any(user => user.Username == Username);
+            }
+        }
+
+        public bool IsUsertableEmpty()
+        {
+            using(ChatDatabase ChatDB=new ChatDatabase())
+            {
+                return !ChatDB.Users.Any();
+            }
+        }
     }
 }

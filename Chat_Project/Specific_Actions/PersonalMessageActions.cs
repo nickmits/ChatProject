@@ -17,17 +17,16 @@ namespace Chat_Project
 
         public bool CreateMessage()
         {
-
             User Receiver = MainActions.SelectUser();
             Console.WriteLine("Send the message");
-            string SentPersonalMessage = Console.ReadLine();
+
             PersonalMessage NewPersonalMessage = new PersonalMessage()
             {
-                Sender = ActiveUser,
-                Receiver = Receiver,
-                PersonalMessageText = SentPersonalMessage
+                SenderID = ActiveUser.UserID,
+                ReceiverID = Receiver.UserID,
+                PersonalMessageText = Console.ReadLine()
             };
-            return true;
+            return dataHandler.CreatePersonalMessageData(NewPersonalMessage);
         }
 
         public bool ShowReceivedMessages()
@@ -41,6 +40,7 @@ namespace Chat_Project
                 Console.WriteLine($"Ο χρήστης {Message.Sender.Username} σας έστειλε μήνυμα στις {Message.SendDate}: {Message.PersonalMessageText}");
                 Message.isRead = true;
             }
+            Console.ReadKey();
             return true;
         }
 
@@ -50,8 +50,10 @@ namespace Chat_Project
             {
                 Console.WriteLine($"{Message.Sender.Username} έστειλες μήνυμα στις {Message.SendDate}: {Message.PersonalMessageText}");
             }
+            Console.ReadKey();
             return true;
         }
+
         public bool IsMessageRead()
         {
             Console.WriteLine("choose the message you want to check if its read");
@@ -69,21 +71,23 @@ namespace Chat_Project
             {
                 Console.WriteLine("Message not read yet");
             }
-
+            Console.ReadKey();
             return false;
         }
 
         public List<PersonalMessage> GetSentMessages()
         {
             return dataHandler.ReadPersonalMessages()
-                 .Where(SendMessages => SendMessages.Sender.UserID == ActiveUser.UserID)
+                 .Where(SendMessages => SendMessages.SenderID == ActiveUser.UserID)
                  .ToList();
         }
+
         public List<PersonalMessage> GetRecievedMessages()
         {
             return dataHandler.ReadPersonalMessages()
                 .Where(ReceivedMessages => ReceivedMessages.Receiver.UserID == ActiveUser.UserID).ToList();
         }
+
         public PersonalMessage GetWantedMessage(User ActiveUser)
         {
             string ReceivedOrSentMessage = SelectMenu.Horizontal(new List<string> { "Received", "Sent" });
@@ -100,12 +104,14 @@ namespace Chat_Project
             string SelectedMessage = SelectMenu.Vertical(MessagesToShow.Select(MessageObject => MessageObject.PersonalMessageText).ToList());
             return MessagesToShow.Single(PMessage => PMessage.PersonalMessageText == SelectedMessage);
         }
+
         public bool UpdateMessage()
         {
             PersonalMessage WantedMessage = GetWantedMessage(ActiveUser);
             Console.Write($"Old Message: {WantedMessage.PersonalMessageText}\nNew Message:");
             return dataHandler.UpdatePersonalMessage(WantedMessage, Console.ReadLine());
         }
+
         public bool DeleteMessage()
         {
             PersonalMessage WantedMessage = GetWantedMessage(ActiveUser);
