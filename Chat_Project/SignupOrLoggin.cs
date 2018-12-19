@@ -116,10 +116,10 @@ namespace Chat_Project
         private string HidePassword()
         {
             string pass = "";
+            ConsoleKeyInfo key;
             do
-            {
-                ConsoleKeyInfo key = Console.ReadKey(true);
-
+            {            
+                key =  Console.ReadKey(true);
                 if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
                 {
                     pass += key.KeyChar;
@@ -131,14 +131,11 @@ namespace Chat_Project
                     {
                         pass = pass.Substring(0, (pass.Length - 1));
                         Console.Write("\b \b");
-                    }
-                    else if (key.Key == ConsoleKey.Enter)
-                    {
-                        break;
-                    }
+                    }                    
                 }
-            } while (true);
+            } while (key.Key!=ConsoleKey.Enter);
             return pass;
+             
         }
         private bool IsCorrectLength(string pass)
         {
