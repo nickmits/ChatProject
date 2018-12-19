@@ -5,6 +5,7 @@ namespace Chat_Project
 {
     internal class ManageUser
     {
+        private const string DELETE_USER = "Delete User", BACK = "Back", UPGRADE = "Upgrade", DOWNGRADE = "Downgrade", USER = "User", ADMIN = " Admin", GUEST = " Guest";
         private IDataHandler DataProvider;
         private User ActiveUser;
         public ManageUser(IDataHandler DataHandler, User LogUser)
@@ -21,16 +22,16 @@ namespace Chat_Project
 
             string UpdateSelection = SelectMenu.Horizontal(new List<string>
             {
-                "Delete User",
-                "Back"
+                DELETE_USER,
+                BACK
             });
 
             switch (UpdateSelection)
             {
-                case "Delete User":
+                case DELETE_USER:
                 default:
                     return DataProvider.DeleteUser(SelectedUser);
-                case "Back":
+                case BACK:
                     return false;
             }
         }
@@ -39,13 +40,13 @@ namespace Chat_Project
         {            
             string UpdateSelection = SelectMenu.Horizontal(new List<string>
             {
-                "Upgrade",
-                "Downgrade",
-                "Back"
+                UPGRADE,
+                DOWNGRADE,
+                BACK
             });
             switch (UpdateSelection)
             {
-                case "Upgrade":
+                case UPGRADE:
 
                     User SelectedUser = MainActions.SelectUser();
                     switch (SelectedUser.TypeOfUser)
@@ -55,11 +56,11 @@ namespace Chat_Project
                             string AdminChoice = SelectMenu.Horizontal(new List<string> { "User", " Admin" });
                             switch (AdminChoice)
                             {
-                                case "User":
+                                case USER:
                                 default:
                                     SelectedUser.TypeOfUser = UserType.User;
                                     break;
-                                case " Admin":
+                                case ADMIN:
                                     SelectedUser.TypeOfUser = UserType.Administrator;
                                     break;
                             }
@@ -73,7 +74,7 @@ namespace Chat_Project
                     }
                     DataProvider.UpdateUserAccess(SelectedUser);
                     break;
-                case "Downgrade":
+                case DOWNGRADE:
                     Console.WriteLine("Choose the user you want to Downgrade:");
                     User UserSelection = MainActions.SelectUser();
                     switch (UserSelection.TypeOfUser)
@@ -83,11 +84,11 @@ namespace Chat_Project
                             string AdminChoice = SelectMenu.Horizontal(new List<string> { "User", " Guest" });
                             switch (AdminChoice)
                             {
-                                case "User":
+                                case USER:
                                 default:
                                     UserSelection.TypeOfUser = UserType.User;
                                     break;
-                                case " Guest":
+                                case GUEST:
                                     UserSelection.TypeOfUser = UserType.Guest;
                                     break;
                             }
@@ -101,7 +102,7 @@ namespace Chat_Project
                     }
                     DataProvider.UpdateUserAccess(UserSelection);
                     break;
-                case "Back":
+                case BACK:
                     return false;
             }
             return true;

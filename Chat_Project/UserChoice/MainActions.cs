@@ -7,6 +7,7 @@ namespace Chat_Project
 {
     internal class MainActions
     {
+        private const string FORUM = "Forum", PERSONAL_MESSAGES = "Personal Messages", MANAGE_USERS = "Manage Users", LOGOUT = "Logout", EXIT = " exit";
         public static IDataHandler DataProvider { get; set; }
 
         public MainActions(IDataHandler GivenDataProvider)
@@ -15,9 +16,9 @@ namespace Chat_Project
         }
         public string Showmenu(UserType TypeUser)
         {
-            List<string> Adminmenu = new List<string> { "Forum", "Personal Messages", "Manage Users","Logout"," exit" };
-            List<string> Usermenu = new List<string> { "Forum", "Personal Messages", "Logout", " exit" };
-            List<string> Guestmenu = new List<string> { "Forum", "Logout"," exit" };
+            List<string> Adminmenu = new List<string> {FORUM, PERSONAL_MESSAGES, MANAGE_USERS,LOGOUT,EXIT };
+            List<string> Usermenu = new List<string> { FORUM, PERSONAL_MESSAGES, LOGOUT, EXIT };
+            List<string> Guestmenu = new List<string> { FORUM, LOGOUT,EXIT };
             switch (TypeUser)
             {
                 case UserType.Administrator:
@@ -36,16 +37,16 @@ namespace Chat_Project
             {
                 switch (Showmenu(ActiveUser.TypeOfUser))
                 {
-                    case "Forum":
+                    case FORUM:
                         SpecificMenu.ShowForumMenu(DataProvider, ActiveUser);
                         break;
-                    case "Personal Messages":
+                    case PERSONAL_MESSAGES:
                         SpecificMenu.ShowPersonalMenu(ActiveUser, DataProvider);
                         break;
-                    case "Manage Users":
+                    case MANAGE_USERS:
                         SpecificMenu.ShowManageUserMenu(ActiveUser, DataProvider);
                         break;
-                    case "Logout":
+                    case LOGOUT:
                         return;
                     default:
                         Environment.Exit(0);

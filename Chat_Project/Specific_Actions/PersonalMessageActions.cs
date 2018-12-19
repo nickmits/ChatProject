@@ -6,6 +6,7 @@ namespace Chat_Project
 {
     internal class PersonalMessageActions
     {
+        private const string RECEIVED = "Received", SENT = "Sent";
         private IDataHandler dataHandler;
         private User ActiveUser;
 
@@ -90,14 +91,14 @@ namespace Chat_Project
 
         public PersonalMessage GetWantedMessage(User ActiveUser)
         {
-            string ReceivedOrSentMessage = SelectMenu.Horizontal(new List<string> { "Received", "Sent" });
+            string ReceivedOrSentMessage = SelectMenu.Horizontal(new List<string> { RECEIVED, SENT });
             List<PersonalMessage> MessagesToShow = new List<PersonalMessage>();
             switch (ReceivedOrSentMessage)
             {
-                case "Received":
+                case RECEIVED:
                     MessagesToShow = GetRecievedMessages();
                     break;
-                case "Sent":
+                case SENT:
                     MessagesToShow = GetSentMessages();
                     break;
             }

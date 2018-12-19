@@ -4,7 +4,9 @@ namespace Chat_Project
 {
     internal class SpecificUserActions
     {
-        const string ALL_MESSAGES = "All Messages", MY_MESSAGES = "My Messages", NEW_MESSAGE = "New Message", EDIT_MESSAGE = "Edit Message", DELETE_MESSAGE = "Delete Message", BACK = "Back";
+        private const string ALL_MESSAGES = "All Messages", MY_MESSAGES = "My Messages", NEW_MESSAGE = "New Message", EDIT_MESSAGE = "Edit Message"
+            , DELETE_MESSAGE = "Delete Message", BACK = "Back", CREATE_MESSAGE = "Create Message", SHOW_RECEIVED_MESSAGES = "Show Received Messages"
+            , SHOW_SENT_MESSAGES = "Show Sent Messages", CHECK_IF_MESSAGE_READ = "Check If Message Read", UPDATE_USER_ACCESS = "Update User Access", DELETE_USER = "Delete User";
         internal void ShowForumMenu(IDataHandler DataHandler, User ActiveUser)
         {
             string UserSelection = SelectMenu.Horizontal(new List<string>
@@ -27,16 +29,16 @@ namespace Chat_Project
                 case MY_MESSAGES:
                     ForumAction.ShowMyMessages();
                     break;
-                case "New Message":
+                case NEW_MESSAGE:
                     ForumAction.CreateMessage();
                     break;
-                case "Edit Message":
+                case EDIT_MESSAGE:
                     ForumAction.UpdateMessage();
                     break;
-                case "Delete Message":
+                case DELETE_MESSAGE:
                     ForumAction.DeleteMessage();
                     break;
-                case "back":
+                case BACK:
                     MA.Showmenu(ActiveUser.TypeOfUser);
                     break;
             }
@@ -46,37 +48,37 @@ namespace Chat_Project
 
             string UserChoice = SelectMenu.Horizontal(new List<string>
             {
-                "Create Message",
-                "Show Received Messages",
-                "Show Sent Messages",
-                "Check If Message Read",
-                "Edit Message",
-                "Delete Message",
-                "Back"
+                CREATE_MESSAGE,
+                SHOW_RECEIVED_MESSAGES,
+                SHOW_SENT_MESSAGES,
+                CHECK_IF_MESSAGE_READ,
+                EDIT_MESSAGE,
+                DELETE_MESSAGE,
+                BACK
             });
             PersonalMessageActions PersonalMessageAction = new PersonalMessageActions(dataHandler, ActiveUser);
             MainActions MA = new MainActions(dataHandler);
             switch (UserChoice)
             {
-                case "Create Message":
+                case CREATE_MESSAGE:
                     PersonalMessageAction.CreateMessage();
                     break;
-                case "Show Received Messages":
+                case SHOW_RECEIVED_MESSAGES:
                     PersonalMessageAction.ShowReceivedMessages();
                     break;
-                case "Show Sent Messages":
+                case SHOW_SENT_MESSAGES:
                     PersonalMessageAction.ShowSentMessages();
                     break;
-                case "Check If Message Read":
+                case CHECK_IF_MESSAGE_READ:
                     PersonalMessageAction.IsMessageRead();
                     break;
-                case "Edit Message":
+                case EDIT_MESSAGE:
                     PersonalMessageAction.UpdateMessage();
                     break;
-                case "Delete Message":
+                case DELETE_MESSAGE:
                     PersonalMessageAction.DeleteMessage();
                     break;
-                case "back":
+                case BACK:
                     MA.Showmenu(ActiveUser.TypeOfUser);
                     break;
             }
@@ -88,16 +90,16 @@ namespace Chat_Project
             {
                 string AdminSelection = SelectMenu.Vertical(new List<string>
                 {
-                    "Update User Access",
-                    "Delete User",
-                    "Back"
+                    UPDATE_USER_ACCESS,
+                    DELETE_USER,
+                    BACK
                 });
                 switch (AdminSelection)
                 {
-                    case "Update User Access":
+                    case UPDATE_USER_ACCESS:
                         MU.UpdateUserAccess();
                         break;
-                    case "Delete User":
+                    case DELETE_USER:
                         MU.DeleteUser();
                         break;
                     default:

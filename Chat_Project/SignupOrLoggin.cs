@@ -6,6 +6,7 @@ namespace Chat_Project
 {
     internal class SignupOrLogin
     {
+        private const string SIGN_UP = "SignUp", LOGGIN = "Login";
         public IDataHandler DataProvider;
 
         public SignupOrLogin(IDataHandler ChosenDataProvider)
@@ -18,15 +19,15 @@ namespace Chat_Project
             while (true)
             {
 
-                string ChoiceIfUserSignUpOrLogin = SelectMenu.Horizontal(new List<string> { "SignUp", "Login" });
+                string ChoiceIfUserSignUpOrLogin = SelectMenu.Horizontal(new List<string> { SIGN_UP,LOGGIN });
 
-                if (ChoiceIfUserSignUpOrLogin == "SignUp")
+                if (ChoiceIfUserSignUpOrLogin == SIGN_UP)
                 {
                     User ActiveUser = SignUpNewUser();
                     Console.WriteLine("Welcome user " + ActiveUser.Username + " and password " + ActiveUser.Password);                   
                     return ActiveUser;
                 }
-                else if (ChoiceIfUserSignUpOrLogin == "Login")
+                else if (ChoiceIfUserSignUpOrLogin == LOGGIN)
                 {
                     do
                     {
