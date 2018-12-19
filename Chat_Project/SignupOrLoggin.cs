@@ -19,12 +19,12 @@ namespace Chat_Project
             while (true)
             {
 
-                string ChoiceIfUserSignUpOrLogin = SelectMenu.Horizontal(new List<string> { SIGN_UP,LOGGIN });
+                string ChoiceIfUserSignUpOrLogin = SelectMenu.Horizontal(new List<string> { SIGN_UP, LOGGIN });
 
                 if (ChoiceIfUserSignUpOrLogin == SIGN_UP)
                 {
                     User ActiveUser = SignUpNewUser();
-                    Console.WriteLine("Welcome user " + ActiveUser.Username + " and password " + ActiveUser.Password);                   
+                    Console.WriteLine("Welcome user " + ActiveUser.Username + " and password " + ActiveUser.Password);
                     return ActiveUser;
                 }
                 else if (ChoiceIfUserSignUpOrLogin == LOGGIN)
@@ -62,7 +62,7 @@ namespace Chat_Project
                 TypeOfUser = DataProvider.IsUsertableEmpty() ? UserType.Administrator : UserType.User,
                 Username = Data.UserName,
                 Password = Data.UserPassword
-                
+
             };
             DataProvider.CreateUserData(NewUser);
             return NewUser;
@@ -98,8 +98,7 @@ namespace Chat_Project
         {
             while (true)
             {
-
-                string Password = Console.ReadLine();
+                string Password =HidePassword();               
                 if (!IsCorrectLength(Password))
                 {
                     Console.WriteLine("Input 5-20 characters");
@@ -110,12 +109,37 @@ namespace Chat_Project
                 }
                 else
                 {
-
                     return Password;
                 }
             }
         }
+        private string HidePassword()
+        {
+            string pass = "";
+            do
+            {
+                ConsoleKeyInfo key = Console.ReadKey(true);
 
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                {
+                    pass += key.KeyChar;
+                    Console.Write("*");
+                }
+                else
+                {
+                    if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
+                    {
+                        pass = pass.Substring(0, (pass.Length - 1));
+                        Console.Write("\b \b");
+                    }
+                    else if (key.Key == ConsoleKey.Enter)
+                    {
+                        break;
+                    }
+                }
+            } while (true);
+            return pass;
+        }
         private bool IsCorrectLength(string pass)
         {
             return pass.Length > 5 && pass.Length < 20;
