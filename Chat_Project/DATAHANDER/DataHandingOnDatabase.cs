@@ -144,7 +144,7 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                PersonalMessage DeletePM = ChatDB.PersonalMessages.Single(pm => pm.PersonalMessageText == DeletedMessage.PersonalMessageText);
+                PersonalMessage DeletePM = ChatDB.PersonalMessages.Single(pm => pm.PersonalMessageId == DeletedMessage.PersonalMessageId);
                 ChatDB.PersonalMessages.Remove(DeletePM);
                 return SaveComitChanges(ChatDB);
             }

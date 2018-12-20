@@ -98,7 +98,7 @@ namespace Chat_Project
         {
             while (true)
             {
-                string Password =HidePassword();               
+                string Password = HidePassword();
                 if (!IsCorrectLength(Password))
                 {
                     Console.WriteLine("Input 5-20 characters");
@@ -118,24 +118,20 @@ namespace Chat_Project
             string pass = "";
             ConsoleKeyInfo key;
             do
-            {            
-                key =  Console.ReadKey(true);
+            {
+                key = Console.ReadKey(true);
                 if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
                 {
                     pass += key.KeyChar;
                     Console.Write("*");
                 }
-                else
+                else if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
                 {
-                    if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
-                    {
-                        pass = pass.Substring(0, (pass.Length - 1));
-                        Console.Write("\b \b");
-                    }                    
+                    pass = pass.Substring(0, (pass.Length - 1));
+                    Console.Write("\b \b");
                 }
-            } while (key.Key!=ConsoleKey.Enter);
+            } while (key.Key != ConsoleKey.Enter);
             return pass;
-             
         }
         private bool IsCorrectLength(string pass)
         {

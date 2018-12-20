@@ -33,7 +33,7 @@ namespace Chat_Project
         public bool ShowReceivedMessages()
         {
             List<PersonalMessage> ReceivedPersonalMessages = dataHandler.ReadPersonalMessages()
-                .Where(ReceivedMessages => ReceivedMessages.Receiver.UserID == ActiveUser.UserID)
+                .Where(ReceivedMessages => ReceivedMessages.ReceiverID== ActiveUser.UserID)
                 .ToList();
 
             foreach (PersonalMessage Message in ReceivedPersonalMessages)
@@ -86,7 +86,7 @@ namespace Chat_Project
         public List<PersonalMessage> GetRecievedMessages()
         {
             return dataHandler.ReadPersonalMessages()
-                .Where(ReceivedMessages => ReceivedMessages.Receiver.UserID == ActiveUser.UserID).ToList();
+                .Where(ReceivedMessages => ReceivedMessages.ReceiverID == ActiveUser.UserID).ToList();
         }
 
         public PersonalMessage GetWantedMessage(User ActiveUser)
