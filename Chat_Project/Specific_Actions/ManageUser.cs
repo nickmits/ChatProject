@@ -5,9 +5,11 @@ namespace Chat_Project
 {
     internal class ManageUser
     {
-        private const string DELETE_USER = "Delete User", BACK = "Back", UPGRADE = "Upgrade", DOWNGRADE = "Downgrade", USER = "User", ADMIN = " Admin", GUEST = " Guest";
+        private const string DELETE_USER = "Delete User", BACK = "Back", UPGRADE = "Upgrade", 
+            DOWNGRADE = "Downgrade", USER = "User", ADMIN = " Admin", GUEST = " Guest";
         private IDataHandler DataProvider;
         private User ActiveUser;
+
         public ManageUser(IDataHandler DataHandler, User LogUser)
         {
             DataProvider = DataHandler;
@@ -24,7 +26,7 @@ namespace Chat_Project
             {
                 DELETE_USER,
                 BACK
-            });
+            }).NameOfChoice;
 
             switch (UpdateSelection)
             {
@@ -43,7 +45,8 @@ namespace Chat_Project
                 UPGRADE,
                 DOWNGRADE,
                 BACK
-            });
+            }).NameOfChoice;
+
             switch (UpdateSelection)
             {
                 case UPGRADE:
@@ -53,7 +56,8 @@ namespace Chat_Project
                     {
                         case UserType.Guest:
                             Console.WriteLine("Upgrade to User or Admin;");
-                            string AdminChoice = SelectMenu.Horizontal(new List<string> { "User", " Admin" });
+                            string AdminChoice = SelectMenu.Horizontal(new List<string> { USER, ADMIN }).NameOfChoice;
+
                             switch (AdminChoice)
                             {
                                 case USER:
@@ -81,7 +85,7 @@ namespace Chat_Project
                     {
                         case UserType.Administrator:
                             Console.WriteLine("Downgrade to User or Guest;");
-                            string AdminChoice = SelectMenu.Horizontal(new List<string> { "User", " Guest" });
+                            string AdminChoice = SelectMenu.Horizontal(new List<string> { USER, GUEST }).NameOfChoice;
                             switch (AdminChoice)
                             {
                                 case USER:

@@ -6,10 +6,8 @@ using System.Linq;
 
 namespace Chat_Project
 {
-    internal class DataHandingOnDatabase : IDataHandler
+    internal class DataHandlingOnDatabase : IDataHandler
     {
-
-
         public List<ForumMessage> ReadForumMessages()
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
@@ -25,8 +23,9 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                return ChatDB.PersonalMessages
-                    .Include(PM=>PM.Sender)
+                return ChatDB
+                    .PersonalMessages
+                    .Include(PM => PM.Sender)
                     .ToList();
             }
         }
@@ -49,6 +48,7 @@ namespace Chat_Project
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 ChatDB.ForumMessages.Add(forumMessage);
+
                 return SaveComitChanges(ChatDB);
             }
         }
@@ -58,6 +58,7 @@ namespace Chat_Project
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 ChatDB.PersonalMessages.Add(personal);
+
                 return SaveComitChanges(ChatDB);
             }
         }
@@ -156,13 +157,14 @@ namespace Chat_Project
             {
                 ForumMessage DeletePM = ChatDB.ForumMessages.Single(fm => fm.TextMessageToAll == DeletedMessage.TextMessageToAll);
                 ChatDB.ForumMessages.Remove(DeletePM);
+
                 return SaveComitChanges(ChatDB);
             }
         }
 
         public bool UsernameExists(string Username)
         {
-            using(ChatDatabase ChatDB=new ChatDatabase())
+            using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 return ChatDB.Users.Any(user => user.Username == Username);
             }
@@ -170,9 +172,21 @@ namespace Chat_Project
 
         public bool IsUsertableEmpty()
         {
-            using(ChatDatabase ChatDB=new ChatDatabase())
+            using (ChatDatabase ChatDB = new ChatDatabase())
             {
                 return !ChatDB.Users.Any();
+            }
+        }
+
+        public bool MarkMessageAsRead(PersonalMessage ReadMessage)
+        {
+            using (ChatDatabase ChatDB = new ChatDatabase())
+            {
+                PersonalMessage ReadPM = ChatDB.PersonalMessages
+                    .Single(rm => rm.PersonalMessageId == ReadMessage.PersonalMessageId);
+                ReadPM.isRead = true;
+                ReadPM.ReadDate = DateTime.Now;
+                return SaveComitChanges(ChatDB);
             }
         }
     }

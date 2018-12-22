@@ -8,42 +8,50 @@ namespace Chat_Project
     {
         private IDataHandler DataProvider;
         private User ActiveUser;
+
         internal ForumActions(IDataHandler DataHandler, User LoggedInUser)
         {
             DataProvider = DataHandler;
             ActiveUser = LoggedInUser;
         }
+
         public bool CreateMessage()
         {
             Console.WriteLine("Type something");
             string MessageTextToAll = Console.ReadLine();
+
             ForumMessage MessageForAll = new ForumMessage()
             {
                 TextMessageToAll = MessageTextToAll,
                 SenderId = ActiveUser.UserID
             };
+
             return DataProvider.CreateForumMessageData(MessageForAll);
         }
+
         public bool ShowMyMessages()
         {
             foreach (ForumMessage forumMessage in GetMyMessages())
             {
                 Console.WriteLine($"You sent at {forumMessage.SendDateToAll}: {forumMessage.TextMessageToAll} ");
             }
+
             Console.ReadKey();
+
             return true;
         }
 
         public bool ShowAllMessages()
-        {
-            
+        {            
             foreach (ForumMessage forumMessage in GetAllMessages())
             {
                 Console.WriteLine($"{forumMessage.SendDateToAll.ToShortDateString()}\t" +
                     $"{forumMessage.Sender.Username } said: " +
                     $"{forumMessage.TextMessageToAll} ");
             }
+
             Console.ReadKey();
+
             return true;
         }
 
@@ -59,27 +67,34 @@ namespace Chat_Project
                 .ToList();
         }
 
+        private ForumMessage ChooseMessageToChange()
+        {
+            List<ForumMessage> MyForumMessages = GetMyMessages();
+
+            // Choose which message to change
+            int SelectedMessage = SelectMenu.Vertical(MyForumMessages
+                .Select(Messages => Messages.TextMessageToAll)
+                .ToList())
+                .IndexOfChoice;
+
+            // Find the message object
+            return MyForumMessages[SelectedMessage];
+        }
+
         internal bool UpdateMessage()
         {
-            // Choose which message to change
-            string TextMessage = SelectMenu.Vertical(GetMyMessages().
-                Select(Messages => Messages.TextMessageToAll).ToList());
-            // Find the message object
-            ForumMessage MessageToReplace = GetMyMessages()
-                .Single(MessageTextToReplace => MessageTextToReplace.TextMessageToAll == TextMessage);
+            ForumMessage MessageToEdit = ChooseMessageToChange();
             Console.WriteLine("Change your message");
+
             // Replace the old message text with the new
             string NewMessageText = Console.ReadLine();
-            return DataProvider.UpdateForumMessage(MessageToReplace, NewMessageText);
 
+            return DataProvider.UpdateForumMessage(MessageToEdit, NewMessageText);
         }
 
         public bool DeleteMessage()
         {
-            string TextMessage = SelectMenu.Vertical(GetMyMessages().
-               Select(Messages => Messages.TextMessageToAll).ToList());
-            ForumMessage MessageToDelete = GetMyMessages()
-                .Single(MessageTextToDelete => MessageTextToDelete.TextMessageToAll == TextMessage);
+            ForumMessage MessageToDelete = ChooseMessageToChange();
             return DataProvider.DeleteForumMessage(MessageToDelete, ActiveUser);
         }
     }

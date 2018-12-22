@@ -9,9 +9,10 @@ namespace Chat_Project
         public User Sender { get; set; }
         public User Receiver { get; set; }
         public string PersonalMessageText { get; set; }
-        internal bool isRead { get; set; }
-        internal DateTime SendDate { get; set; }
-        internal DateTime ReadDate { get; set; }
+        public string TitleText { get; set; }
+        public bool isRead { get; set; }
+        public DateTime SendDate { get; set; }
+        public DateTime ReadDate { get; set; }
         public int PersonalMessageId { get; set; }
         public int SenderID { get; set; }
         public int ReceiverID { get; set; }
@@ -22,6 +23,5 @@ namespace Chat_Project
             ReadDate = DateTime.Now;
             isRead = false;
         }
-
     }
 }

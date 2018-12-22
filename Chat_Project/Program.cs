@@ -9,7 +9,7 @@ namespace Chat_Project
         {
             while (true)
             {
-                IDataHandler DataProvider = new DataHandingOnDatabase();
+                IDataHandler DataProvider = new DataHandlingOnDatabase();
                 MainActions MainMenuSelection = new MainActions(DataProvider);
                 Console.WriteLine("WELCOME");
                 SignupOrLogin WelcomeScreen = new SignupOrLogin(DataProvider);

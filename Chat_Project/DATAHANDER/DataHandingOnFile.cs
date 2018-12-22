@@ -232,5 +232,10 @@ namespace Chat_Project
         {
             return ReadUserData().Any();
         }
+
+        public bool MarkMessageAsRead(PersonalMessage ReadMessage)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

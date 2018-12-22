@@ -19,7 +19,7 @@ namespace Chat_Project
             while (true)
             {
 
-                string ChoiceIfUserSignUpOrLogin = SelectMenu.Horizontal(new List<string> { SIGN_UP, LOGGIN });
+                string ChoiceIfUserSignUpOrLogin = SelectMenu.Horizontal(new List<string> { SIGN_UP, LOGGIN }).NameOfChoice;
 
                 if (ChoiceIfUserSignUpOrLogin == SIGN_UP)
                 {

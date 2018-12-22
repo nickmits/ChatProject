@@ -15,9 +15,10 @@ namespace Chat_Project
         List<PersonalMessage> ReadPersonalMessages();
 
         // Update
-        bool UpdateForumMessage(ForumMessage OldForumMessage, string NewForumMessageText);       
+        bool UpdateForumMessage(ForumMessage OldForumMessage, string NewForumMessageText);
         bool UpdateUserAccess(User UpdatedUser);
         bool UpdatePersonalMessage(PersonalMessage OldPersonalMessage, string NewPersonalMessageText);
+        bool MarkMessageAsRead(PersonalMessage ReadMessage);
 
         // Delete
         bool DeleteUser(User DeletedUser);

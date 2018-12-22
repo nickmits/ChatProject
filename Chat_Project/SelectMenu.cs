@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 
 namespace Chat_Project
 {
+
+    public struct UserChoice
+    {
+        public string NameOfChoice;
+        public int IndexOfChoice;
+    }
+
     internal class SelectMenu
     {
-        public static string Vertical(List<string> MenutoshowVertical)
+
+        public static UserChoice Vertical(List<string> MenutoshowVertical)
         {
             int Selectedoption = 0;
             ConsoleKeyInfo UserChoice;
@@ -36,12 +43,15 @@ namespace Chat_Project
 
             }
             while (UserChoice.Key != ConsoleKey.Enter);
-            string ResultSelectOption = MenutoshowVertical[Selectedoption];
             Console.Clear();
-            return ResultSelectOption;
+            return new UserChoice()
+            {
+                NameOfChoice = MenutoshowVertical[Selectedoption],
+                IndexOfChoice = Selectedoption
+            };
         }
 
-        public static string Horizontal(List<string> MenuToShowHorizontal)
+        public static UserChoice Horizontal(List<string> MenuToShowHorizontal)
         {
             int CurrentOption = 0;
             ConsoleKeyInfo UserKeyPressed;
@@ -68,7 +78,11 @@ namespace Chat_Project
             }
             while (UserKeyPressed.Key != ConsoleKey.Enter);
             Console.Clear();
-            return MenuToShowHorizontal[CurrentOption];
+            return new UserChoice()
+            {
+                NameOfChoice = MenuToShowHorizontal[CurrentOption],
+                IndexOfChoice = CurrentOption
+            };
         }
     }
 }
