@@ -73,6 +73,7 @@
     <Compile Include="Migrations\201812211700071_Add_Read_Personal_Message.Designer.cs">
       <DependentUpon>201812211700071_Add_Read_Personal_Message.cs</DependentUpon>
     </Compile>
+    <Compile Include="ParentClass\Action.cs" />
     <Compile Include="Specific_Actions\ManageUser.cs" />
     <Compile Include="UserChoice\MainActions.cs" />
     <Compile Include="SelectMenu.cs" />
@@ -143,5 +144,6 @@
       <DependentUpon>201812211700071_Add_Read_Personal_Message.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

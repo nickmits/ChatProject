@@ -17,9 +17,27 @@ namespace Chat_Project
 
         public string Showmenu(UserType TypeUser)
         {
-            List<string> Adminmenu = new List<string> { FORUM, PERSONAL_MESSAGES, MANAGE_USERS, LOGOUT, EXIT };
-            List<string> Usermenu = new List<string> { FORUM, PERSONAL_MESSAGES, LOGOUT, EXIT };
-            List<string> Guestmenu = new List<string> { FORUM, LOGOUT, EXIT };
+            List<string> Adminmenu = new List<string>
+            {
+                FORUM,
+                PERSONAL_MESSAGES,
+                MANAGE_USERS,
+                LOGOUT,
+                EXIT
+            };
+            List<string> Usermenu = new List<string>
+            {
+                FORUM,
+                PERSONAL_MESSAGES,
+                LOGOUT,
+                EXIT
+            };
+            List<string> Guestmenu = new List<string>
+            {
+                FORUM,
+                LOGOUT,
+                EXIT
+            };
 
             switch (TypeUser)
             {

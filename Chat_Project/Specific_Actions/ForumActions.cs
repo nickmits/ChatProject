@@ -4,16 +4,9 @@ using System.Linq;
 
 namespace Chat_Project
 {
-    internal class ForumActions
+    internal class ForumActions : Action
     {
-        private IDataHandler DataProvider;
-        private User ActiveUser;
-
-        internal ForumActions(IDataHandler DataHandler, User LoggedInUser)
-        {
-            DataProvider = DataHandler;
-            ActiveUser = LoggedInUser;
-        }
+        public ForumActions(IDataHandler DataProvider, User ActiveUser) : base(DataProvider, ActiveUser) { }
 
         public bool CreateMessage()
         {
@@ -26,7 +19,7 @@ namespace Chat_Project
                 SenderId = ActiveUser.UserID
             };
 
-            return DataProvider.CreateForumMessageData(MessageForAll);
+            return DataHandler.CreateForumMessageData(MessageForAll);
         }
 
         public bool ShowMyMessages()
@@ -42,7 +35,7 @@ namespace Chat_Project
         }
 
         public bool ShowAllMessages()
-        {            
+        {
             foreach (ForumMessage forumMessage in GetAllMessages())
             {
                 Console.WriteLine($"{forumMessage.SendDateToAll.ToShortDateString()}\t" +
@@ -57,7 +50,7 @@ namespace Chat_Project
 
         public List<ForumMessage> GetAllMessages()
         {
-            return DataProvider.ReadForumMessages().ToList();
+            return DataHandler.ReadForumMessages().ToList();
         }
 
         public List<ForumMessage> GetMyMessages()
@@ -89,13 +82,13 @@ namespace Chat_Project
             // Replace the old message text with the new
             string NewMessageText = Console.ReadLine();
 
-            return DataProvider.UpdateForumMessage(MessageToEdit, NewMessageText);
+            return DataHandler.UpdateForumMessage(MessageToEdit, NewMessageText);
         }
 
         public bool DeleteMessage()
         {
             ForumMessage MessageToDelete = ChooseMessageToChange();
-            return DataProvider.DeleteForumMessage(MessageToDelete, ActiveUser);
+            return DataHandler.DeleteForumMessage(MessageToDelete, ActiveUser);
         }
     }
 }

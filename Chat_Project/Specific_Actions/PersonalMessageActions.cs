@@ -5,17 +5,10 @@ using System.Linq;
 
 namespace Chat_Project
 {
-    internal class PersonalMessageActions
+    internal class PersonalMessageActions : Action
     {
         private const string RECEIVED = "Received", SENT = "Sent";
-        private IDataHandler dataHandler;
-        private User ActiveUser;
-
-        public PersonalMessageActions(IDataHandler DataProvider, User LoggedInUser)
-        {
-            dataHandler = DataProvider;
-            ActiveUser = LoggedInUser;
-        }
+        public PersonalMessageActions(IDataHandler DataProvider, User ActiveUser) : base(DataProvider, ActiveUser) { }
 
         public bool CreateMessage()
         {
@@ -34,7 +27,7 @@ namespace Chat_Project
                 PersonalMessageText = text
             };
 
-            return dataHandler.CreatePersonalMessageData(NewPersonalMessage);
+            return DataHandler.CreatePersonalMessageData(NewPersonalMessage);
         }
 
         public bool ShowReceivedMessages()
@@ -48,7 +41,7 @@ namespace Chat_Project
 
             Console.WriteLine($"Ο χρήστης {MessageToShow.Sender.Username} σας έστειλε μήνυμα στις " +
                 $"{MessageToShow.SendDate}: {MessageToShow.PersonalMessageText}");
-            Debug.Write(dataHandler.MarkMessageAsRead(MessageToShow));
+            Debug.Write(DataHandler.MarkMessageAsRead(MessageToShow));
 
             Console.ReadKey();
 
@@ -97,17 +90,17 @@ namespace Chat_Project
 
         public List<PersonalMessage> GetMessages(bool Sent = true)
         {
-            return dataHandler.ReadPersonalMessages()
-                 .Where(SendMessages => 
+            return DataHandler.ReadPersonalMessages()
+                 .Where(SendMessages =>
                  (Sent ? SendMessages.SenderID : SendMessages.ReceiverID) == ActiveUser.UserID)
                  .ToList();
         }
 
         private List<string> PresentTitles(List<PersonalMessage> Messages)
         {
-           return Messages.
-                Select(sm => (sm.isRead ? "  " : " *") + sm.TitleText).
-                ToList();
+            return Messages.
+                 Select(sm => (sm.isRead ? "  " : " *") + sm.TitleText).
+                 ToList();
         }
 
         public PersonalMessage GetWantedMessage(User ActiveUser)
@@ -128,14 +121,14 @@ namespace Chat_Project
             PersonalMessage WantedMessage = GetWantedMessage(ActiveUser);
             Console.Write($"Old Message: {WantedMessage.PersonalMessageText}\nNew Message:");
 
-            return dataHandler.UpdatePersonalMessage(WantedMessage, Console.ReadLine());
+            return DataHandler.UpdatePersonalMessage(WantedMessage, Console.ReadLine());
         }
 
         public bool DeleteMessage()
         {
             PersonalMessage WantedMessage = GetWantedMessage(ActiveUser);
 
-            return dataHandler.DeletePersonalMessage(WantedMessage, ActiveUser);
+            return DataHandler.DeletePersonalMessage(WantedMessage, ActiveUser);
         }
 
         public string CountUnreadReceived()
