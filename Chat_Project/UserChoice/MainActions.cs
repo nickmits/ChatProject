@@ -6,7 +6,7 @@ namespace Chat_Project
     internal class MainActions
     {
         private const string FORUM = "Forum", PERSONAL_MESSAGES = "Personal Messages",
-            MANAGE_USERS = "Manage Users", LOGOUT = "Logout", UPDATE_CODES = "Update Codes", EXIT = "Exit";
+            MANAGE_USERS = "Manage Users", LOGOUT = "Logout", EXIT = "Exit";
 
         public static IDataHandler DataProvider { get; set; }
 
@@ -17,41 +17,22 @@ namespace Chat_Project
 
         public string Showmenu(UserType TypeUser)
         {
-            List<string> Adminmenu = new List<string>
-            {
-                FORUM,
-                PERSONAL_MESSAGES,
-                MANAGE_USERS,
-                UPDATE_CODES,
-                LOGOUT,
-                EXIT
-            };
-            List<string> Usermenu = new List<string>
-            {
-                FORUM,
-                PERSONAL_MESSAGES,
-                UPDATE_CODES,
-                LOGOUT,
-                EXIT
-            };
-            List<string> Guestmenu = new List<string>
+            List<string> MainMenu = new List<string>
             {
                 FORUM,
                 LOGOUT,
                 EXIT
             };
 
-            switch (TypeUser)
+            if (TypeUser != UserType.Guest)
             {
-                case UserType.Administrator:
-                    return SelectMenu.Vertical(Adminmenu).NameOfChoice;
-                case UserType.User:
-                default:
-                    return SelectMenu.Vertical(Usermenu).NameOfChoice;
-                case UserType.Guest:
-                    return SelectMenu.Vertical(Guestmenu).NameOfChoice;
+                MainMenu.Insert(1, PERSONAL_MESSAGES);
+                MainMenu.Insert(2, MANAGE_USERS);
             }
+
+            return SelectMenu.Vertical(MainMenu).NameOfChoice;
         }
+
         public void MainMenu(User ActiveUser)
         {
             SpecificUserActions SpecificMenu = new SpecificUserActions();
@@ -69,9 +50,7 @@ namespace Chat_Project
                     case MANAGE_USERS:
                         SpecificMenu.ShowManageUserMenu(ActiveUser, DataProvider);
                         break;
-                    case UPDATE_CODES:
-                        SpecificMenu.UpdateCodes(DataProvider, ActiveUser);
-                        break;
+
                     case LOGOUT:
                         return;
                     default:

@@ -16,8 +16,6 @@ namespace Chat_Project
                 User LoggedInUser = WelcomeScreen.SignOrLog(DataProvider);
                 MainMenuSelection.MainMenu(LoggedInUser);
             }
-
-
         }
     }
 }

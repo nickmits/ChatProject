@@ -73,9 +73,8 @@
     <Compile Include="Migrations\201812211700071_Add_Read_Personal_Message.Designer.cs">
       <DependentUpon>201812211700071_Add_Read_Personal_Message.cs</DependentUpon>
     </Compile>
-    <Compile Include="ParentClass\Action.cs" />
+    <Compile Include="ABSTRACT_CLASS\Action.cs" />
     <Compile Include="Specific_Actions\ManageUser.cs" />
-    <Compile Include="Specific_Actions\UpdateLoginCodes.cs" />
     <Compile Include="UserChoice\MainActions.cs" />
     <Compile Include="SelectMenu.cs" />
     <Compile Include="DATA_OBJECTS\PersonalMessage.cs" />
@@ -102,7 +101,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SignupOrLoggin.cs" />
+    <Compile Include="UserChoice\SignupOrLoggin.cs" />
     <Compile Include="Specific_Actions\ForumActions.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>

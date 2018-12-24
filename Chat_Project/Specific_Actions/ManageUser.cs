@@ -5,7 +5,7 @@ namespace Chat_Project
 {
     internal class ManageUser
     {
-        private const string DELETE_USER = "Delete User", BACK = "Back", UPGRADE = "Upgrade", 
+        private const string DELETE_USER = "Delete User", BACK = "Back", UPGRADE = "Upgrade",
             DOWNGRADE = "Downgrade", USER = "User", ADMIN = " Admin", GUEST = " Guest";
         private IDataHandler DataProvider;
         private User ActiveUser;
@@ -39,7 +39,7 @@ namespace Chat_Project
         }
 
         public bool UpdateUserAccess()
-        {            
+        {
             string UpdateSelection = SelectMenu.Horizontal(new List<string>
             {
                 UPGRADE,
@@ -110,6 +110,42 @@ namespace Chat_Project
                     return false;
             }
             return true;
+        }        
+        public bool UpdateUsername()
+        {
+            do
+            {
+                Console.WriteLine("Type your old Username:");
+                string OldUsername = Console.ReadLine();
+                if (OldUsername == ActiveUser.Username)
+                {
+                    Console.WriteLine("Type New Username");
+                    string NewUsername = Console.ReadLine();
+
+                    return DataProvider.UpdateUserName(ActiveUser, NewUsername);
+                }
+                else { Console.WriteLine("Wrong Username,Try Again"); }
+            }
+            while (true);
+        }
+
+        public bool UpdatePassword()
+        {
+            do
+            {
+                Console.WriteLine("Type your old Password:");
+                string OldPassword = Console.ReadLine();
+                if (OldPassword == ActiveUser.Password)
+                {
+                    Console.WriteLine("Type New Password");
+                    string NewPassword = Console.ReadLine();
+
+                    return DataProvider.UpdateUserPassword(ActiveUser, NewPassword);
+                }
+                else { Console.WriteLine("Wrong Password,Try Again"); }
+            }
+            while (true);
+
         }
     }
 }

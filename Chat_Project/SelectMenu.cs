@@ -23,9 +23,7 @@ namespace Chat_Project
                 Console.Clear();
                 for (int option = 0; option < MenutoshowVertical.Count; option++)
                 {
-                    if (option == Selectedoption) { Console.ForegroundColor = ConsoleColor.Red; }
-
-                    else { Console.ForegroundColor = ConsoleColor.White; }
+                    Console.ForegroundColor = (option == Selectedoption) ? ConsoleColor.Red : ConsoleColor.White;
                     Console.WriteLine(MenutoshowVertical[option]);
                 }
                 UserChoice = Console.ReadKey();
@@ -35,15 +33,17 @@ namespace Chat_Project
                     if (Selectedoption == 0) { Selectedoption = MenutoshowVertical.Count - 1; }
                     else { Selectedoption--; }
                 }
-                if (UserChoice.Key == ConsoleKey.DownArrow)
+                else if (UserChoice.Key == ConsoleKey.DownArrow)
                 {
                     if (Selectedoption == MenutoshowVertical.Count - 1) { Selectedoption = 0; }
                     else { Selectedoption++; }
                 }
-
             }
             while (UserChoice.Key != ConsoleKey.Enter);
+
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+
             return new UserChoice()
             {
                 NameOfChoice = MenutoshowVertical[Selectedoption],
@@ -60,11 +60,11 @@ namespace Chat_Project
                 Console.Clear();
                 for (int option = 0; option < MenuToShowHorizontal.Count; option++)
                 {
-                    if (option == CurrentOption) { Console.ForegroundColor = ConsoleColor.Blue; }
-                    else { Console.ForegroundColor = ConsoleColor.White; }
+                    Console.ForegroundColor = (option == CurrentOption) ? ConsoleColor.Blue : ConsoleColor.White;
                     Console.Write(MenuToShowHorizontal[option] + "\t");
                 }
                 UserKeyPressed = Console.ReadKey();
+
                 if (UserKeyPressed.Key == ConsoleKey.LeftArrow)
                 {
                     if (CurrentOption == 0) { CurrentOption = MenuToShowHorizontal.Count - 1; }
@@ -78,6 +78,8 @@ namespace Chat_Project
             }
             while (UserKeyPressed.Key != ConsoleKey.Enter);
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+
             return new UserChoice()
             {
                 NameOfChoice = MenuToShowHorizontal[CurrentOption],

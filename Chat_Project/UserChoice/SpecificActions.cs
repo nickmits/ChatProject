@@ -9,30 +9,8 @@ namespace Chat_Project
             BACK = "Back", CREATE_MESSAGE = "Create Message", SHOW_RECEIVED_MESSAGES = "Show Received Messages",
             SHOW_SENT_MESSAGES = "Show Sent Messages", CHECK_IF_MESSAGE_READ = "Check If Message Read",
             UPDATE_USER_ACCESS = "Update User Access", DELETE_USER = "Delete User",
-            UPDATE_USERNAME = "Update Username", UPDATE_PASSWORD = " Update Password";
-        internal void UpdateCodes(IDataHandler DataHandler, User ActiveUser)
-        {
-            string UserSelection = SelectMenu.Horizontal(new List<string>
-            {
-                UPDATE_USERNAME,
-                UPDATE_PASSWORD,
-                BACK
-            }).NameOfChoice;
-            UpdateLoginCodes ULC = new UpdateLoginCodes(DataHandler, ActiveUser);
-            MainActions MA = new MainActions(DataHandler);
-            switch (UserSelection)
-            {
-                case UPDATE_USERNAME:
-                    ULC.UpdateUsername();
-                    break;
-                case UPDATE_PASSWORD:
-                    ULC.UpdatePassword();
-                    break;
-                case BACK:
-                    MA.Showmenu(ActiveUser.TypeOfUser);
-                    break;
-            }
-        }
+            UPDATE_USERNAME = "Update Username", UPDATE_PASSWORD = "Update Password";
+
 
         internal void ShowForumMenu(IDataHandler DataHandler, User ActiveUser)
         {
@@ -120,23 +98,39 @@ namespace Chat_Project
 
         internal void ShowManageUserMenu(User ActiveUser, IDataHandler dataHandler)
         {
+
             ManageUser MU = new ManageUser(dataHandler, ActiveUser);
+
+            List<string> Options = new List<string>
+                    {
+                        UPDATE_USERNAME,
+                        UPDATE_PASSWORD,
+                        BACK
+                    };
+
+            if (ActiveUser.TypeOfUser == UserType.Administrator)
+            {
+                Options.Insert(0, UPDATE_USER_ACCESS);
+                Options.Insert(1, DELETE_USER);
+            }
+
             while (true)
             {
-                string AdminSelection = SelectMenu.Vertical(new List<string>
-                {
-                    UPDATE_USER_ACCESS,
-                    DELETE_USER,
-                    BACK
-                }).NameOfChoice;
+                string Selection = SelectMenu.Vertical(Options).NameOfChoice;
 
-                switch (AdminSelection)
+                switch (Selection)
                 {
                     case UPDATE_USER_ACCESS:
                         MU.UpdateUserAccess();
                         break;
                     case DELETE_USER:
                         MU.DeleteUser();
+                        break;
+                    case UPDATE_USERNAME:
+                        MU.UpdateUsername();
+                        break;
+                    case UPDATE_PASSWORD:
+                        MU.UpdatePassword();
                         break;
                     default:
                         return;
