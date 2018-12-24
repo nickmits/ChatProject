@@ -237,5 +237,15 @@ namespace Chat_Project
         {
             throw new NotImplementedException();
         }
+
+        public bool UpdateUserName(User UpdatedUser, string NewUsername)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateUserPassword(User UpdatedUser, string NewUserPassword)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

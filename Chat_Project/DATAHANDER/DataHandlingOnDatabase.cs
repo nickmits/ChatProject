@@ -90,7 +90,9 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                ChatDB.ForumMessages.Single(fm => fm.TextMessageToAll == OldForumMessage.TextMessageToAll).TextMessageToAll = NewForumMessageText;
+                ChatDB.ForumMessages.Single(fm =>
+                fm.TextMessageToAll == OldForumMessage.TextMessageToAll).
+                TextMessageToAll = NewForumMessageText;
                 return SaveComitChanges(ChatDB);
             }
         }
@@ -99,7 +101,8 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                ChatDB.Users.Single(ThisUser => ThisUser.Username == UpdatedUser.Username).Username = NewUsername;
+                ChatDB.Users.Single(ThisUser => ThisUser.Username == UpdatedUser.Username).
+                    Username = NewUsername;
                 return SaveComitChanges(ChatDB);
             }
         }
@@ -108,7 +111,8 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                ChatDB.Users.Single(u => u.UserID == UpdatedUser.UserID).Password = NewUserPassword;
+                ChatDB.Users.Single(u => u.UserID == UpdatedUser.UserID).
+                    Password = NewUserPassword;
                 return SaveComitChanges(ChatDB);
             }
         }
@@ -117,7 +121,8 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                ChatDB.Users.Single(USER => USER.UserID == UpdatedUser.UserID).TypeOfUser = UpdatedUser.TypeOfUser;
+                ChatDB.Users.Single(USER => USER.UserID == UpdatedUser.UserID).
+                    TypeOfUser = UpdatedUser.TypeOfUser;
                 return SaveComitChanges(ChatDB);
             }
         }
@@ -126,7 +131,9 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                ChatDB.PersonalMessages.Single(PM => PM.PersonalMessageText == OldPersonalMessage.PersonalMessageText).PersonalMessageText = NewPersonalMessageText;
+                ChatDB.PersonalMessages.Single(PM => 
+                PM.PersonalMessageId == OldPersonalMessage.PersonalMessageId).
+                PersonalMessageText = NewPersonalMessageText;
                 return SaveComitChanges(ChatDB);
             }
         }
@@ -145,7 +152,8 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                PersonalMessage DeletePM = ChatDB.PersonalMessages.Single(pm => pm.PersonalMessageId == DeletedMessage.PersonalMessageId);
+                PersonalMessage DeletePM = ChatDB.PersonalMessages.Single(pm =>
+                pm.PersonalMessageId == DeletedMessage.PersonalMessageId);
                 ChatDB.PersonalMessages.Remove(DeletePM);
                 return SaveComitChanges(ChatDB);
             }
@@ -155,7 +163,8 @@ namespace Chat_Project
         {
             using (ChatDatabase ChatDB = new ChatDatabase())
             {
-                ForumMessage DeletePM = ChatDB.ForumMessages.Single(fm => fm.TextMessageToAll == DeletedMessage.TextMessageToAll);
+                ForumMessage DeletePM = ChatDB.ForumMessages.Single(fm =>
+                fm.TextMessageToAll == DeletedMessage.TextMessageToAll);
                 ChatDB.ForumMessages.Remove(DeletePM);
 
                 return SaveComitChanges(ChatDB);

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Chat_Project
+﻿namespace Chat_Project
 {
-    class Action
+    internal class Action
     {
-        protected IDataHandler DataHandler;
+        internal IDataHandler DataHandler;
         public User ActiveUser;
 
-        public Action (IDataHandler dataHandler, User activeUser)
+        public Action(IDataHandler dataHandler, User activeUser)
         {
             DataHandler = dataHandler;
             ActiveUser = activeUser;

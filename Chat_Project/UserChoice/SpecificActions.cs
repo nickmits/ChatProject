@@ -8,11 +8,35 @@ namespace Chat_Project
             NEW_MESSAGE = "New Message", EDIT_MESSAGE = "Edit Message", DELETE_MESSAGE = "Delete Message",
             BACK = "Back", CREATE_MESSAGE = "Create Message", SHOW_RECEIVED_MESSAGES = "Show Received Messages",
             SHOW_SENT_MESSAGES = "Show Sent Messages", CHECK_IF_MESSAGE_READ = "Check If Message Read",
-            UPDATE_USER_ACCESS = "Update User Access", DELETE_USER = "Delete User";
+            UPDATE_USER_ACCESS = "Update User Access", DELETE_USER = "Delete User",
+            UPDATE_USERNAME = "Update Username", UPDATE_PASSWORD = " Update Password";
+        internal void UpdateCodes(IDataHandler DataHandler, User ActiveUser)
+        {
+            string UserSelection = SelectMenu.Horizontal(new List<string>
+            {
+                UPDATE_USERNAME,
+                UPDATE_PASSWORD,
+                BACK
+            }).NameOfChoice;
+            UpdateLoginCodes ULC = new UpdateLoginCodes(DataHandler, ActiveUser);
+            MainActions MA = new MainActions(DataHandler);
+            switch (UserSelection)
+            {
+                case UPDATE_USERNAME:
+                    ULC.UpdateUsername();
+                    break;
+                case UPDATE_PASSWORD:
+                    ULC.UpdatePassword();
+                    break;
+                case BACK:
+                    MA.Showmenu(ActiveUser.TypeOfUser);
+                    break;
+            }
+        }
 
         internal void ShowForumMenu(IDataHandler DataHandler, User ActiveUser)
         {
-            string UserSelection = SelectMenu.Horizontal(new List<string>
+            string UserSelection = SelectMenu.Vertical(new List<string>
             {
                 ALL_MESSAGES,
                 MY_MESSAGES,
@@ -52,7 +76,7 @@ namespace Chat_Project
             PersonalMessageActions PersonalMessageAction = new PersonalMessageActions(dataHandler, ActiveUser);
             MainActions MA = new MainActions(dataHandler);
 
-            string UserChoice = SelectMenu.Horizontal(new List<string>
+            string UserChoice = SelectMenu.Vertical(new List<string>
             {
                 CREATE_MESSAGE,
                 SHOW_RECEIVED_MESSAGES + PersonalMessageAction.CountUnreadReceived(),

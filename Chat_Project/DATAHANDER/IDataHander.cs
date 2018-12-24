@@ -19,6 +19,8 @@ namespace Chat_Project
         bool UpdateUserAccess(User UpdatedUser);
         bool UpdatePersonalMessage(PersonalMessage OldPersonalMessage, string NewPersonalMessageText);
         bool MarkMessageAsRead(PersonalMessage ReadMessage);
+        bool UpdateUserName(User UpdatedUser, string NewUsername);
+        bool UpdateUserPassword(User UpdatedUser, string NewUserPassword);
 
         // Delete
         bool DeleteUser(User DeletedUser);

@@ -75,6 +75,7 @@
     </Compile>
     <Compile Include="ParentClass\Action.cs" />
     <Compile Include="Specific_Actions\ManageUser.cs" />
+    <Compile Include="Specific_Actions\UpdateLoginCodes.cs" />
     <Compile Include="UserChoice\MainActions.cs" />
     <Compile Include="SelectMenu.cs" />
     <Compile Include="DATA_OBJECTS\PersonalMessage.cs" />
